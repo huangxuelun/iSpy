@@ -10,7 +10,7 @@ namespace iSpyApplication
 {
     public partial class MainForm
     {
-        private void LayoutObjects(int w, int h)
+        public void LayoutObjects(int w, int h)
         {
             _pnlCameras.HorizontalScroll.Value = 0;
             _pnlCameras.VerticalScroll.Value = 0;
@@ -228,7 +228,7 @@ namespace iSpyApplication
                     if (r.IsEmpty)
                     {
                         var s = "320x240";
-                        if (!String.IsNullOrEmpty(cameraControl.Camobject.resolution))
+                        if (!string.IsNullOrEmpty(cameraControl.Camobject.resolution))
                             s = cameraControl.Camobject.resolution;
                         var wh = s.Split('x');
 

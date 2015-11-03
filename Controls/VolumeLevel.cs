@@ -513,7 +513,10 @@ namespace iSpyApplication.Controls
                                 }
                                 break;
                             case 2:
-                                MainClass.EditMicrophone(Micobject);
+                                if (Helper.HasFeature(Enums.Features.Edit))
+                                {
+                                    MainClass.EditMicrophone(Micobject);
+                                }
                                 break;
                             case 3:
                                 if (Helper.HasFeature(Enums.Features.Access_Media))
@@ -1016,7 +1019,7 @@ namespace iSpyApplication.Controls
                     }
                     break;
                 case 2://settings
-                    rSrc = MainForm.REdit;
+                    rSrc = Helper.HasFeature(Enums.Features.Edit) ? MainForm.REdit : MainForm.REditOff;
                     break;
                 case 3://web
                     rSrc = Helper.HasFeature(Enums.Features.Access_Media) ? MainForm.RWeb : MainForm.RWebOff;
@@ -1480,7 +1483,7 @@ namespace iSpyApplication.Controls
             {
                 _stopWrite.Reset();
 
-                if (!String.IsNullOrEmpty(Micobject.recorder.trigger))
+                if (!string.IsNullOrEmpty(Micobject.recorder.trigger))
                 {
                     string[] tid = Micobject.recorder.trigger.Split(',');
                     switch (tid[0])
@@ -1680,7 +1683,7 @@ namespace iSpyApplication.Controls
                     ErrorHandler?.Invoke(ex.Message);
                 }
 
-                if (!String.IsNullOrEmpty(Micobject.recorder.trigger))
+                if (!string.IsNullOrEmpty(Micobject.recorder.trigger))
                 {
                     string[] tid = Micobject.recorder.trigger.Split(',');
                     switch (tid[0])
@@ -2006,7 +2009,7 @@ namespace iSpyApplication.Controls
 
                 if (AudioSource != null)
                 {
-                    WaveOut = !String.IsNullOrEmpty(Micobject.settings.deviceout)
+                    WaveOut = !string.IsNullOrEmpty(Micobject.settings.deviceout)
                         ? new DirectSoundOut(new Guid(Micobject.settings.deviceout), 100)
                         : new DirectSoundOut(100);
 

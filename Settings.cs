@@ -134,7 +134,7 @@ namespace iSpyApplication
             SaveSMTPSettings();
 
             MainForm.Conf.Archive = txtArchive.Text.Trim();
-            if (!String.IsNullOrEmpty(MainForm.Conf.Archive))
+            if (!string.IsNullOrEmpty(MainForm.Conf.Archive))
             {
                 if (!MainForm.Conf.Archive.EndsWith(@"\"))
                     MainForm.Conf.Archive += @"\";
@@ -673,7 +673,7 @@ namespace iSpyApplication
             chkEnableLogging.Text = LocRm.GetString("Enable");
             numKeepLogs.Text = LocRm.GetString("KeepLogsForDays");
             numMaxLogSize.Text = LocRm.GetString("MaxFileSizeKB");
-
+            llblHelp.Visible = linkLabel1.Visible = linkLabel2.Visible = Helper.HasFeature(Enums.Features.View_Ispy_Links);
         }
 
 
@@ -1203,7 +1203,7 @@ namespace iSpyApplication
         private string GetFolder(string initialPath)
         {
             string f = "";
-            if (!String.IsNullOrEmpty(initialPath))
+            if (!string.IsNullOrEmpty(initialPath))
             {
                 try
                 {

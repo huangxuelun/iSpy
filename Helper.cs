@@ -42,6 +42,25 @@ namespace iSpyApplication
             return i.ToString(CultureInfo.InvariantCulture);
         }
 
+        public static Dictionary<string, string> GetDictionary(string cfg, char delim)
+        {
+            var d = new Dictionary<string, string>();
+            if (!string.IsNullOrEmpty(cfg))
+            {
+                var l = cfg.Split(delim);
+                foreach (var t in l)
+                {
+                    var nv = t.Split('=');
+                    if (nv.Length == 2)
+                    {
+                        if (!d.ContainsKey(nv[0]))
+                            d.Add(nv[0], nv[1]);
+                    }
+                }
+            }
+            return d;
+        }
+
         static public void CopyFolder(string sourceFolder, string destFolder)
         {
             if (!Directory.Exists(destFolder))
@@ -80,13 +99,13 @@ namespace iSpyApplication
                 ttl += $" ({MainForm.Conf.WSUsername})";
             }
 
-            if (!String.IsNullOrEmpty(MainForm.Conf.Reseller))
+            if (!string.IsNullOrEmpty(MainForm.Conf.Reseller))
             {
                 ttl += $" Powered by {MainForm.Conf.Reseller.Split('|')[0]}";
             }
             else
             {
-                if (!String.IsNullOrEmpty(MainForm.Conf.Vendor))
+                if (!string.IsNullOrEmpty(MainForm.Conf.Vendor))
                 {
                     ttl += $" with {MainForm.Conf.Vendor}";
                 }
@@ -141,7 +160,7 @@ namespace iSpyApplication
         internal static bool ArchiveFile(string filename)
         {
 
-            if (!String.IsNullOrEmpty(MainForm.Conf.Archive) && Directory.Exists(MainForm.Conf.Archive))
+            if (!string.IsNullOrEmpty(MainForm.Conf.Archive) && Directory.Exists(MainForm.Conf.Archive))
             {
                 string fn = filename.Substring(filename.LastIndexOf("\\", StringComparison.Ordinal) + 1);
                 if (File.Exists(filename))
@@ -165,7 +184,7 @@ namespace iSpyApplication
         internal static bool ArchiveAndDelete(string filename)
         {
 
-            if (!String.IsNullOrEmpty(MainForm.Conf.Archive) && Directory.Exists(MainForm.Conf.Archive))
+            if (!string.IsNullOrEmpty(MainForm.Conf.Archive) && Directory.Exists(MainForm.Conf.Archive))
             {
                 string fn = filename.Substring(filename.LastIndexOf("\\", StringComparison.Ordinal) + 1);
                 if (File.Exists(filename))
@@ -208,6 +227,14 @@ namespace iSpyApplication
                     break;
             }
             var o2 = MainForm.Conf.MediaDirectories.FirstOrDefault(p => p.ID == i);
+            if (o2 != null)
+                return o2.Entry;
+            return MainForm.Conf.MediaDirectories[0].Entry;
+        }
+
+        internal static string GetMediaDirectory(int directoryIndex)
+        {
+            var o2 = MainForm.Conf.MediaDirectories.FirstOrDefault(p => p.ID == directoryIndex);
             if (o2 != null)
                 return o2.Entry;
             return MainForm.Conf.MediaDirectories[0].Entry;
@@ -318,7 +345,7 @@ namespace iSpyApplication
 
         public static bool CanAlert(string groupname, int resetInterval)
         {
-            if (String.IsNullOrEmpty(groupname) || resetInterval == 0)
+            if (string.IsNullOrEmpty(groupname) || resetInterval == 0)
                 return true;
 
             var ag = AlertGroups.FirstOrDefault(p => p.Name == groupname);
